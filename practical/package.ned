@@ -1,0 +1,3 @@
+package practical;
+
+@license(LGPL);
