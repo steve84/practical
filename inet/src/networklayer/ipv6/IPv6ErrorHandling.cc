@@ -21,7 +21,8 @@
 //  Cleanup and rewrite: Andras Varga, 2004
 //  Implementation of IPv6 version: Wei Yang, Ng, 2005
 
-#include <omnetpp.h>
+#include "INETDefs.h"
+
 #include "IPv6ErrorHandling.h"
 #include "IPv6ControlInfo.h"
 #include "IPv6Datagram.h"
@@ -35,7 +36,7 @@ void IPv6ErrorHandling::initialize()
 void IPv6ErrorHandling::handleMessage(cMessage *msg)
 {
     ICMPv6Message *icmpv6Msg = check_and_cast<ICMPv6Message *>(msg);
-    IPv6Datagram *d = check_and_cast<IPv6Datagram *>(icmpv6Msg->getEncapsulatedMsg());
+    IPv6Datagram *d = check_and_cast<IPv6Datagram *>(icmpv6Msg->getEncapsulatedPacket());
     int type = (int)icmpv6Msg->getType();
     int code;
     EV << " Type: " << type;
