@@ -1,5 +1,6 @@
 package practical;
 
+import inet.networklayer.autorouting.FlatNetworkConfigurator;
 import inet.nodes.wireless.WirelessAPWithEth;
 import inet.nodes.inet.StandardHost;
 import inet.nodes.inet.Router;
@@ -39,6 +40,9 @@ network MobileNet
         }
         wirelessAPWithEth2: WirelessAPWithEth {
             @display("p=342,60");
+        }
+        flatNetworkConfigurator: FlatNetworkConfigurator {
+            @display("p=373,139");
         }
     connections:
         client.ethg++ <--> wirelessAPWithEth1.ethg++;
