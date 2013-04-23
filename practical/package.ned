@@ -1,51 +1,49 @@
 package practical;
 
-import inet.networklayer.autorouting.FlatNetworkConfigurator;
-import inet.nodes.wireless.WirelessAPWithEth;
+import inet.examples.wireless.throughput.WirelessAPWithSink;
+import inet.networklayer.autorouting.ipv4.FlatNetworkConfigurator;
+import inet.nodes.inet.AdhocHost;
 import inet.nodes.inet.StandardHost;
-import inet.nodes.inet.Router;
-import inet.nodes.wireless.WirelessAP;
-import inet.nodes.ethernet.EtherHost2;
-import inet.world.ChannelControl;
-import inet.nodes.adhoc.MFMobileHost;
+import inet.nodes.wireless.AccessPoint;
+import inet.world.radio.ChannelControl;
+import ned.DatarateChannel;
+
 
 @license(LGPL);
 
 network MobileNet
 {
-    parameters:
-        double playgroundSizeX;
-        double playgroundSizeY;
-
-        @display("bgb=450,174");
+    @display("bgb=433,167");
+    types:
+        channel C extends DatarateChannel
+        {
+            datarate = 10Mbps;
+            delay = 0.1us;
+        }    
     submodules:
-        host[10]: MFMobileHost {
-            parameters:
-                @display("r=,,#707070;p=230,61");
+        accessPoint1: AccessPoint {
+            @display("p=116,29");
         }
-        channelcontrol: ChannelControl {
-            parameters:
-                playgroundSizeX = playgroundSizeX;
-                playgroundSizeY = playgroundSizeY;
-                @display("p=43,138");
+        accessPoint2: AccessPoint {
+            @display("p=298,29");
+        }
+        adhocHost[10]: AdhocHost {
+            @display("p=203,29");
         }
         server: StandardHost {
-            @display("p=420,60");
+            @display("p=31,29");
         }
         client: StandardHost {
-            @display("p=43,60");
-        }
-        wirelessAPWithEth1: WirelessAPWithEth {
-            @display("p=125,60");
-        }
-        wirelessAPWithEth2: WirelessAPWithEth {
-            @display("p=342,60");
+            @display("p=391,29");
         }
         flatNetworkConfigurator: FlatNetworkConfigurator {
-            @display("p=373,139");
+            @display("p=329,93");
         }
-    connections:
-        client.ethg++ <--> wirelessAPWithEth1.ethg++;
-        server.ethg++ <--> wirelessAPWithEth2.ethg++;
+        channelControl: ChannelControl {
+            @display("p=67,93");
+        }
 
+    connections:
+        server.ethg++ <--> C <--> accessPoint1.ethg++;
+        client.ethg++ <--> C <--> accessPoint2.ethg++;
 }
