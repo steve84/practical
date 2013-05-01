@@ -21,10 +21,10 @@ network MobileNet
             delay = 0.1us;
         }    
     submodules:
-        accessPoint1: AccessPoint {
+        accessPoint1: AdhocHost {
             @display("p=116,29");
         }
-        accessPoint2: AccessPoint {
+        accessPoint2: AdhocHost {
             @display("p=298,29");
         }
         adhocHost[10]: AdhocHost {
@@ -43,7 +43,7 @@ network MobileNet
             @display("p=67,93");
         }
 
-    connections:
+    connections allowunconnected:
         server.ethg++ <--> C <--> accessPoint1.ethg++;
         client.ethg++ <--> C <--> accessPoint2.ethg++;
 }
