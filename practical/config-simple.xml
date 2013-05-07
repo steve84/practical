@@ -1,0 +1,9 @@
+<config>
+  <interface hosts="adhocHost[*] gwHost*" names="wlan*" address="20.0.0.x" netmask="255.255.255.0"/>
+  <interface hosts="server gwHost1" names="eth*" address="10.0.0.x" netmask="255.255.255.0"/>
+  <interface hosts="client gwHost2" names="eth*" address="30.0.0.x" netmask="255.255.255.0"/>
+
+  <route hosts="server" destination="*" netmask="*" gateway="gwHost1" />
+  <route hosts="client" destination="*" netmask="*" gateway="gwHost2" />
+
+</config>

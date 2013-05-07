@@ -25,7 +25,7 @@ import inet.linklayer.IWirelessNic;
 import inet.linklayer.IWiredNic;
 import inet.linklayer.IExternalNic;
 import inet.base.NotificationBoard;
-
+import inet.networklayer.IManetRouting;
 
 //
 // Contains the common lower layers (linklayer and networklayer)
@@ -49,6 +49,7 @@ module NodeBase
         string routingFile = default("");
         bool IPForward = default(true);
         bool forwardMulticast = default(false);
+        string routingProtocol @enum("AODVUU","DYMOUM","DYMO","DSRUU","OLSR","OLSR_ETX","DSDV_2","Batman") = default("");  // used mobile routing protocol. see: inet.networklayer.manetrouting
     gates:
         input radioIn[numRadios] @directIn;
         inout pppg[] @labels(PPPFrame-conn);
@@ -105,6 +106,9 @@ module NodeBase
             parameters:
                 @display("p=547,386,row,90;q=txQueue;i=block/ifcard");
         }
+        manetrouting: <routingProtocol> like IManetRouting if routingProtocol != "" {
+            @display("p=522,307");
+        }        
 
     connections allowunconnected:
         // connections to network outside
@@ -130,5 +134,8 @@ module NodeBase
             ext[i].upperLayerOut --> networkLayer.ifIn++;
             ext[i].upperLayerIn <-- networkLayer.ifOut++;
         }
+        
+        networkLayer.manetOut --> manetrouting.from_ip if routingProtocol != "";
+        networkLayer.manetIn <-- manetrouting.to_ip if routingProtocol != "";        
 }
 

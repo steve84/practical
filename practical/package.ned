@@ -1,7 +1,7 @@
 package practical;
 
 import inet.examples.wireless.throughput.WirelessAPWithSink;
-import inet.networklayer.autorouting.ipv4.FlatNetworkConfigurator;
+import inet.networklayer.autorouting.ipv4.IPv4NetworkConfigurator;
 import inet.nodes.inet.AdhocHost;
 import inet.nodes.inet.StandardHost;
 import inet.nodes.wireless.AccessPoint;
@@ -21,10 +21,10 @@ network MobileNet
             delay = 0.1us;
         }    
     submodules:
-        accessPoint1: AdhocHost {
+        gwHost1: AdhocHost {
             @display("p=100,250");
         }
-        accessPoint2: AdhocHost {
+        gwHost2: AdhocHost {
             @display("p=600,250");
         }
         adhocHost[10]: AdhocHost {
@@ -36,7 +36,7 @@ network MobileNet
         client: StandardHost {
             @display("p=650,250");
         }
-        flatNetworkConfigurator: FlatNetworkConfigurator {
+        flatNetworkConfigurator: IPv4NetworkConfigurator {
             @display("p=50,550");
         }
         channelControl: ChannelControl {
@@ -44,6 +44,6 @@ network MobileNet
         }
 
     connections allowunconnected:
-        server.ethg++ <--> C <--> accessPoint1.ethg++;
-        client.ethg++ <--> C <--> accessPoint2.ethg++;
+        server.ethg++ <--> C <--> gwHost1.ethg++;
+        client.ethg++ <--> C <--> gwHost2.ethg++;
 }
