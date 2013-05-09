@@ -41,6 +41,9 @@ void SCTPServer::initialize()
     WATCH(bytesSent);
     WATCH(numRequestsToSend);
 
+    startTime = 0;
+    avgThroughputVec.setName("Average Throughput");
+
     // parameters
     finishEndsSimulation = (bool)par("finishEndsSimulation");
     const char *addressesString = par("localAddress");
@@ -340,6 +343,10 @@ void SCTPServer::handleMessage(cMessage *msg)
 
                 j->second.rcvdBytes += PK(msg)->getByteLength();
                 k->second->record(j->second.rcvdBytes);
+
+                // Calculate the average throughput in bps
+                double avgThroughput = ((double)PK(msg)->getByteLength()*8) / SIMTIME_DBL(simTime() - startTime);
+                avgThroughputVec.record(avgThroughput);
 
                 if (!echo)
                 {

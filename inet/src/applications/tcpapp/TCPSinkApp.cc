@@ -36,6 +36,9 @@ void TCPSinkApp::initialize()
     socket.readDataTransferModePar(*this);
     socket.bind(localAddress[0] ? IPvXAddress(localAddress) : IPvXAddress(), localPort);
     socket.listen();
+
+    startTime = 0;
+    avgThroughputVec.setName("Average Throughput");
 }
 
 void TCPSinkApp::handleMessage(cMessage *msg)
@@ -60,6 +63,10 @@ void TCPSinkApp::handleMessage(cMessage *msg)
             sprintf(buf, "rcvd: %ld bytes", bytesRcvd);
             getDisplayString().setTagArg("t", 0, buf);
         }
+
+        // Calculate the average throughput in bps
+        double avgThroughput = ((double)bytesRcvd*8) / SIMTIME_DBL(simTime() - startTime);
+        avgThroughputVec.record(avgThroughput);
     }
     else
     {

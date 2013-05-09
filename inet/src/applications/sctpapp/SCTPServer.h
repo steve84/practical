@@ -83,6 +83,9 @@ class INET_API SCTPServer : public cSimpleModule
         typedef std::map<int32,cOutVector*> EndToEndDelay;
         EndToEndDelay endToEndDelay;
 
+        cOutVector avgThroughputVec;
+        simtime_t startTime;
+
     protected:
         void sendOrSchedule(cPacket *msg);
         cPacket* makeAbortNotification(SCTPCommand* msg);

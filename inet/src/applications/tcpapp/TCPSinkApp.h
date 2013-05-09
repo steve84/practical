@@ -25,9 +25,11 @@ class INET_API TCPSinkApp : public cSimpleModule
 {
   protected:
     long bytesRcvd;
+    simtime_t startTime;
 
     //statistics:
     static simsignal_t rcvdPkSignal;
+    cOutVector avgThroughputVec;
 
   protected:
     virtual void initialize();
