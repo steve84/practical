@@ -345,7 +345,7 @@ void SCTPServer::handleMessage(cMessage *msg)
                 k->second->record(j->second.rcvdBytes);
 
                 // Calculate the average throughput in bps
-                double avgThroughput = ((double)PK(msg)->getByteLength()*8) / SIMTIME_DBL(simTime() - startTime);
+                double avgThroughput = ((double)j->second.rcvdBytes*8) / SIMTIME_DBL(simTime() - startTime);
                 avgThroughputVec.record(avgThroughput);
 
                 if (!echo)
