@@ -46,6 +46,9 @@ class INET_API TCPSessionApp : public cSimpleModule
     static simsignal_t sentPkSignal;
     static simsignal_t recvIndicationsSignal;
 
+    cOutVector avgThroughputVec;
+    cOutVector endToEndDelayVec;
+
   public:
     TCPSessionApp() : cSimpleModule(65536) {}
 

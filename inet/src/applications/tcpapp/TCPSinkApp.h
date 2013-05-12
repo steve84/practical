@@ -30,6 +30,7 @@ class INET_API TCPSinkApp : public cSimpleModule
     //statistics:
     static simsignal_t rcvdPkSignal;
     cOutVector avgThroughputVec;
+    cOutVector endToEndDelayVec;
 
   protected:
     virtual void initialize();

@@ -88,6 +88,14 @@ void TCPSessionApp::count(cMessage *msg)
             cPacket *packet = PK(msg);
             bytesRcvd += packet->getByteLength();
             emit(rcvdPkSignal, packet);
+
+
+            // Calculate the average throughput in bps
+            double avgThroughput = ((double)bytesRcvd*8) / SIMTIME_DBL(simTime());
+            avgThroughputVec.record(avgThroughput);
+
+            double endToEndDelay = SIMTIME_DBL(simTime() - msg->getTimestamp());
+            endToEndDelayVec.record(endToEndDelay);
         }
         else
         {
@@ -130,6 +138,7 @@ cPacket* TCPSessionApp::genDataMsg(long sendBytes)
             cPacket *msg = NULL;
             msg = new cPacket("data1");
             msg->setByteLength(sendBytes);
+
             return msg;
         }
 
@@ -162,6 +171,10 @@ void TCPSessionApp::activity()
     rcvdPkSignal = registerSignal("rcvdPk");
     sentPkSignal = registerSignal("sentPk");
     recvIndicationsSignal = registerSignal("recvIndications");
+
+    //startTime = 0;
+    avgThroughputVec.setName("Average Throughput");
+    endToEndDelayVec.setName("End-to-End Delay");
 
     // parameters
     const char *localAddress = par("localAddress");
@@ -220,6 +233,7 @@ void TCPSessionApp::activity()
         cPacket *msg = genDataMsg(sendBytes);
         bytesSent += sendBytes;
         emit(sentPkSignal, msg);
+        msg->setTimestamp();
         socket.send(msg);
     }
 
@@ -230,6 +244,7 @@ void TCPSessionApp::activity()
         cPacket *msg = genDataMsg(i->numBytes);
         bytesSent += i->numBytes;
         emit(sentPkSignal, msg);
+        msg->setTimestamp();
         socket.send(msg);
     }
 

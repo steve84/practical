@@ -44,6 +44,7 @@ void SCTPServer::initialize()
     startTime = 0;
     avgThroughputVec.setName("Average Throughput");
 
+
     // parameters
     finishEndsSimulation = (bool)par("finishEndsSimulation");
     const char *addressesString = par("localAddress");

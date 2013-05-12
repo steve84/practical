@@ -39,10 +39,15 @@ void TCPSinkApp::initialize()
 
     startTime = 0;
     avgThroughputVec.setName("Average Throughput");
+    endToEndDelayVec.setName("End-to-End Delay");
 }
 
 void TCPSinkApp::handleMessage(cMessage *msg)
 {
+
+
+
+
     if (msg->getKind() == TCP_I_PEER_CLOSED)
     {
         // we close too
@@ -63,6 +68,11 @@ void TCPSinkApp::handleMessage(cMessage *msg)
             sprintf(buf, "rcvd: %ld bytes", bytesRcvd);
             getDisplayString().setTagArg("t", 0, buf);
         }
+
+
+        double endToEndDelay = SIMTIME_DBL(simTime() - msg->getTimestamp());
+        endToEndDelayVec.record(endToEndDelay);
+
 
         // Calculate the average throughput in bps
         double avgThroughput = ((double)bytesRcvd*8) / SIMTIME_DBL(simTime() - startTime);
