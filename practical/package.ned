@@ -19,7 +19,7 @@ network MobileNet
         {
             datarate = 10Mbps;
             delay = 0.1us;
-        }    
+        }
     submodules:
         gwHost1: AdhocHost {
             @display("p=100,250");
