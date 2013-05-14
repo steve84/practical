@@ -210,8 +210,12 @@ TCPConnection *TCPConnection::cloneListeningConnection()
 void TCPConnection::sendToIP(TCPSegment *tcpseg)
 {
     // record seq (only if we do send data) and ackno
-    if (sndNxtVector && tcpseg->getPayloadLength() != 0)
+    if (sndNxtVector && tcpseg->getPayloadLength() != 0) {
+
+
+        sndNxtCount->record(++sndNextCounter);
         sndNxtVector->record(tcpseg->getSequenceNo());
+    }
 
     if (sndAckVector)
         sndAckVector->record(tcpseg->getAckNo());
