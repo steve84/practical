@@ -214,7 +214,10 @@ void TCPConnection::sendToIP(TCPSegment *tcpseg)
         sndNxtVector->record(tcpseg->getSequenceNo());
 
     if (sndAckVector)
-        sndAckVector->record(tcpseg->getAckNo());
+    {
+        if(tcpseg->getAckBit())
+            sndAckVector->record(tcpseg->getAckNo());
+    }
 
     // final touches on the segment before sending
     tcpseg->setSrcPort(localPort);
