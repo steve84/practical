@@ -234,6 +234,15 @@ TCPConnection::TCPConnection(TCP *_mod, int _appGateIndex, int _connId)
     pipeVector = NULL;
     sackedBytesVector = NULL;
 
+
+    // TS: additional statistics
+    rcvdSeqCount = NULL;
+    sndNxtCount = NULL;
+
+    rcvdSeqCounter = 0;
+    sndNextCounter = 0;
+
+
     if (getTcpMain()->recordStatistics)
     {
         sndWndVector = new cOutVector("send window");
@@ -253,6 +262,10 @@ TCPConnection::TCPConnection(TCP *_mod, int _appGateIndex, int _connId)
         sackedBytesVector = new cOutVector("rcvd sackedBytes");
         tcpRcvQueueBytesVector = new cOutVector("tcpRcvQueueBytes");
         tcpRcvQueueDropsVector = new cOutVector("tcpRcvQueueDrops");
+
+        // TS: additional statistics
+        rcvdSeqCount = new cOutVector("rcvd seq count");
+        sndNxtCount = new cOutVector("sent seq count");
     }
 }
 
@@ -287,6 +300,9 @@ TCPConnection::~TCPConnection()
     delete tcpRcvQueueDropsVector;
     delete pipeVector;
     delete sackedBytesVector;
+
+    delete rcvdSeqCount;
+    delete sndNxtCount;
 }
 
 bool TCPConnection::processTimer(cMessage *msg)

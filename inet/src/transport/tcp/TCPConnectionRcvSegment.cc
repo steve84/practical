@@ -88,8 +88,10 @@ TCPEventCode TCPConnection::process_RCV_SEGMENT(TCPSegment *tcpseg, IPvXAddress 
     printSegmentBrief(tcpseg);
     tcpEV << "TCB: " << state->info() << "\n";
 
-    if (rcvSeqVector)
+    if (rcvSeqVector) {
+        rcvdSeqCount->record(++rcvdSeqCounter);
         rcvSeqVector->record(tcpseg->getSequenceNo());
+    }
 
     if (rcvAckVector)
         rcvAckVector->record(tcpseg->getAckNo());

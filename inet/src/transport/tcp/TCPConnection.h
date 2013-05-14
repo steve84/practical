@@ -374,6 +374,13 @@ class INET_API TCPConnection
     cOutVector *tcpRcvQueueBytesVector;   // current amount of used bytes in tcp receive queue
     cOutVector *tcpRcvQueueDropsVector;   // number of drops in tcp receive queue
 
+    // TS: additional statistics
+    cOutVector *rcvdSeqCount; // number of received seq messages
+    cOutVector *sndNxtCount; // number of sent seq messages
+
+    long rcvdSeqCounter;
+    long sndNextCounter;
+
   protected:
     /** @name FSM transitions: analysing events and executing state transitions */
     //@{
