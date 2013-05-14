@@ -201,7 +201,8 @@ void PingApp::processPingResponse(PingPayload *msg)
              << " bytes from " << src
              << " icmp_seq=" << msg->getSeqNo() << " ttl=" << msgHopCount
              << " time=" << (rtt * 1000) << " msec"
-             << " (" << msg->getName() << ")" << endl;
+             << " (" << msg->getName() << ")"
+             << " Simulation Time: " << simTime() << endl;
     }
 
     // update statistics
