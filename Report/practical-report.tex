@@ -1,7 +1,7 @@
 \newcommand{\lecture}{Network Performance and Modelling\\
 FS2013} 
 \newcommand{\serieNumber}{Practical Exercise\\ Final Report} 
-\newcommand{\authorsOfSerie}{Tobias Schmid 07-909-294 \\ Steve Aschwanden 05-480-686}
+\newcommand{\authorsOfSerie}{Steve Aschwanden 05-480-686\\ Tobias Schmid 07-909-294}
 
 
 \documentclass[a4paper]{article} 
@@ -15,16 +15,29 @@ FS2013}
 \end{center}
 
 \begin{abstract}
-The Stream Control Transmission Protocol (SCTP) was defined, about twenty years before TCP and UDP, in 2000 by the Internet Engineering Task Force (IETF). They combined the best practices from both older protocols to create a message-based, mutli-streamed transport protocol. There are papers \cite{sctp_vs_tcp}\cite{sctp_vs_tcp2} which shows the improvements of the SCTP with the usage of HTTP over the internet. In this paper we want to compare the behaviour of the TCP and SCTP in a wireless multi-hop network environment.
+The Stream Control Transmission Protocol (SCTP) was defined, about twenty years after TCP and UDP, in 2000 by the Internet Engineering Task Force (IETF). They combined the best practices from both older protocols to create a message-based, multi-streamed transport protocol. There are papers \cite{sctp_vs_tcp}\cite{sctp_vs_tcp2} which shows the improvements of the SCTP with the usage of HTTP over the internet. In this paper we want to compare the behaviour of the TCP and SCTP in a wireless multi-hop network environment. Further it 
 \end{abstract}
 
 \tableofcontents
 
 \section{Introduction}
 
+\subsection{Transmission Control Protocol}
+
+The Transmission Control Protocol (TCP) is besides the User Datagram Protocol (UDP) one of the core protocols of the Internet Protocol suite (IP) which has been developed between the mid-seventies and the early-eighties of the 20th century.\\
+TCP provides connection oriented data-transfer with the following key features:
+\begin{itemize}
+	\item Ordered data transfer
+	\item Retransmission of lost packets
+	\item Error-free data transfer 
+	\item Flow control 
+	\item Congestion control
+\end{itemize}
+Since TCP is the most common used transport protocol it is assumed that the reader is familiar with the operation of the Protocol. Because of that the focus of the introduction lies on the less common protocols used in this simulation scenario.
+
 \subsection{Stream Control Transmission Protocol}
 Stream Control Transmission Protocol (SCTP) is a reliable, message oriented transport protocol that provides new services and features for IP communication. For the past twenty years, reliable communication service has been provided by TCP, unreliable by UDP. So, what has brought about the addition of a third protocol to the IP suite of protocols? Many of the features found in TCP and UDP can also be found in SCTP (see Table \ref{tab_sctp_features}).
-\begin{table}[ht]
+\begin{table}[H]
 	\centering
 	\begin{tabular}{ | l | r | r | r | }
 		\hline
@@ -39,7 +52,7 @@ Stream Control Transmission Protocol (SCTP) is a reliable, message oriented tran
 		Unordered delivery & yes & no & yes \\ \hline
 		Flow control & yes & yes & no \\ \hline
 		Congestion Control & yes & yes & no \\ \hline
-		Selective Acknowledgments & yes & opt & no \\ \hline
+		Selective Acknowledgements & yes & opt & no \\ \hline
 		Multistreaming & yes & no & no \\ \hline
 		Multihoming & yes & no & no \\ \hline
 		Dynamic Multihoming & opt & no & no \\ \hline
@@ -132,7 +145,7 @@ We run our simulation for 200 seconds. The simulation time limits the maximal co
 For the comparison of the two transport protocols we take a look at the following metrics:
 \begin{itemize}
 	\item Throughput: The average number of bits delivered over a communication channel over a certain amount of time. This metric would be measured in bits per second (bps)
-	\item Loss rate: The ratio of number of packets which didn’t receive the destination over the number of all transmitted packets
+	\item Loss rate: The ratio of number of packets which didn’t reach the destination over the number of all transmitted packets
 	\item Round trip time (RTT): The time between sending a packet and the arrival of the corresponding acknowledgement from the server
 	\item ACK overhead: The additional number of the control messages sent by the TCP protocol compared to the number of message sent by the SCTP protocol.
 \end{itemize}			
@@ -145,7 +158,6 @@ For our simulation we use the following parameters to show the different behavio
 		\item Stream Control Transmission Protocol
 		\begin{itemize}
 			\item Number of streams (1-5)
-			\item Consider multihoming configuration (if possible)
 		\end{itemize}
     	\item Transmission Control Protocol (Standard implementation of INET framework)
 	\end{itemize}
@@ -154,17 +166,19 @@ For our simulation we use the following parameters to show the different behavio
 		\item Speed (5, 10, 20, 30, 70 km/h)
 	\end{itemize}
 \end{itemize}	
+
+% TODO remove this lines
 The suggested number of streams is only a first estimation. If we can’t see distinguished results during the simulation process, we will have the possibility to change these numbers.
 \subsection{Results}
 \subsubsection{Expected results}
 In this section, we try to predict the results of our simulation approach. It’s not so easy, because we are not familiar with the SCTP.
 
 \paragraph{Throughput}
-The TCP should have a little higher throughput than SCTP, if we use only one stream. Because the SCTP can not bring in his strength (multiple streams, message oriented). If we increase the number of streams, but with a small loss rate (e.g. slow velocity), the performance of TCP is still better than SCTP. But if there are losses (e.g. high velocity), the SCTP has the mechanism to achieve a higher throughput.
+The TCP should have a slightly higher throughput than SCTP if only one stream is used. Because the SCTP can not bring in his strength (multiple streams, message oriented). If we increase the number of streams, but with a small loss rate (e.g. slow velocity), the performance of TCP is still better than SCTP. But if there are losses (e.g. high velocity), the SCTP has the mechanism to achieve a higher throughput.
 \paragraph{Loss rate}
 If we have a small moving speed of the mobile devices, then the loss rate should be small. That’s because the routing has enough time to find a new route to the destination. If the velocity will be increased, then the loss rate increased too. The type of the transport protocol should have no influence to the loss rate.
 \paragraph{Round trip time (RTT)}
-Using only one stream of the SCTP will not reduce the RTT and therefore the TCP will have a smaller one. But if we use multiple stream, then the SCTP should reduce this metric significantly. The parallelization could be one reason to explain this. Generally, we can say that higher velocity of the devices results in higher RTT (OLSR has to find new routes faster).
+Using only one stream of the SCTP will not reduce the RTT and therefore the TCP will have a smaller one. But if we use multiple stream, then the SCTP should reduce this metric significantly. The parallelism could be one reason to explain this. Generally, we can say that higher velocity of the devices results in higher RTT (OLSR has to find new routes faster).
 \paragraph{ACK Overhead}
 Increasing velocity will cause an increasing ACK overhead of TCP because packets are dropped and have to be retransmitted. The number of packet requests of SCTP increases with a higher number of streams and increasing velocity because of packet loss.
 
