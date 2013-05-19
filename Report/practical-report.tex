@@ -15,7 +15,7 @@ FS2013}
 \end{center}
 
 \begin{abstract}
-The Stream Control Transmission Protocol (SCTP) was defined, about twenty years after TCP and UDP, in 2000 by the Internet Engineering Task Force (IETF). They combined the best practices from both older protocols to create a message-based, multi-streamed transport protocol. There are papers \cite{sctp_vs_tcp}\cite{sctp_vs_tcp2} which shows the improvements of the SCTP with the usage of HTTP over the internet. In this paper we want to compare the behaviour of the TCP and SCTP in a wireless multi-hop network environment. Further it 
+The Stream Control Transmission Protocol (SCTP) was defined, about twenty years after TCP and UDP, in 2000 by the Internet Engineering Task Force (IETF). They combined the best practices from both older protocols to create a message-based, multi-streamed transport protocol. There are papers \cite{sctp_vs_tcp}\cite{sctp_vs_tcp2} which shows the improvements of the SCTP with the usage of HTTP over the internet. In this paper we want to compare the behaviour of the TCP and SCTP in a wireless multi-hop network environment. For this we use the OMNeT++ network simulation framework \cite{omnetpp}. The hops are in motion (different speeds) and use the proactive OLSR protocol to transmit data over a wide open field (500m x 500m) without obstacles like mountains or buildings. In the first part we introduce the reader into some technical topics for a better understanding of the used technologies. The simulation setting and the corresponding results are part of the mid section. At the end of the document we conclude our project with a summary of our observations.
 \end{abstract}
 
 \tableofcontents
@@ -189,6 +189,7 @@ Increasing velocity will cause an increasing ACK overhead of TCP because packets
 \begin{thebibliography}{99}
 \bibitem {sctp_vs_tcp} SCTP versus TCP: Comparing the Performance of Transport Protocols for Web Traffic, Rajesh Rajamani, Sumit Kumar, Nikhil Gupta, Computer Sciences Department, University of Wisconsin-Madison, July 2002, \url{http://pages.cs.wisc.edu/~sumit/extlinks/sctp.pdf}
 \bibitem {sctp_vs_tcp2} A comparison of TCP and SCTP performance using the HTTP protocol, Henrik Osterdahl, \url{http://www.ict.kth.se/courses/IK1550/Sample-papers/Henrik_Oesterdahl-sctp-20050525.pdf}
+\bibitem {omnetpp} OMNeT++ Network Simulation Framework, \url{http://www.omnetpp.org/}
 \bibitem {sctp_whitepaper} Introduction to the Stream Control Transmission Protocol (SCTP), Paul Stalvig, \url{http://www.f5.com/pdf/white-papers/sctp-introduction-wp.pdf}
 \bibitem {aodv_vs_olsr} Comparing AODV and OLSR Routing Protocols, Aleksandr Huhtonen, Helsinki University of Technology, Telecommunication Software and Multimedia Laboratory, \url{http://edge.cs.drexel.edu/regli/Classes/CS680/Papers/Ad%20Hoc/Routing/aodv-oslr-comparison.pdf}
 \end{thebibliography}
