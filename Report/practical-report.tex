@@ -160,8 +160,8 @@ The simulation runtime was 200 seconds. The simulation time limits the maximal c
 For the comparison of the two transport protocols the following metrics have been used:
 \begin{itemize}
 	\item Throughput: The average number of bits delivered over a communication channel within a certain amount of time. This metric has the unit bits per second (bps)
-	\item Loss rate: The ratio of number of packets which did not reach the destination over the number of all transmitted packets
 	\item Round trip time (RTT): The time between sending a packet and the arrival of the corresponding acknowledgement from the server
+	\item Loss rate: The number of packets which did not reach the destination divided by the number of all sent packets
 	\item ACK overhead: The additional number of the control messages sent by the TCP protocol compared to the number of message sent by the SCTP protocol.
 \end{itemize}			
 \subsubsection{Parameters}
@@ -252,6 +252,28 @@ There are two possibilities to explain this behaviour:
 \end{enumerate}
 
 \paragraph{Loss Rate}
+
+The loss rate of TCP has been calculated using the the number of sent seq packets on the server side and the number of received seq packets on the client side.
+Table \ref{table:loss-rate-tcp} shows the the results of the three runs and the average of these results.
+\begin{table}[H]
+\centering
+\begin{tabular}{cccc}
+
+\textbf{Speed} & \textbf{\# Sent Packets} & \textbf{\# Received Packets} & \textbf{Loss Rate} \\ 
+\hline 
+\hline
+1.4 m/s & 150788 & 150276 & 0.34 \% \\ 
+
+8.4 m/s & 153413 & 152853 & 0.37 \% \\ 
+
+20 m/s & 147834 & 147325 & 0.34 \% \\ 
+ \hline
+\textbf{Average} & - & - & 0.35 \% \\ 
+\end{tabular} 
+
+\label{table:loss-rate-tcp}
+\caption{Loss rate TCP simulation runs}
+\end{table}
 
 \paragraph{ACK Overhead}
 
