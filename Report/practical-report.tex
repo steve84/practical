@@ -99,13 +99,14 @@ Also each host has the Multipoint Relay Selector set, which indicates which host
 OLSR is also a flat routing protocol, it does not need central administrative system to handle its routing process. The proactive characteristic of the protocol provides that the protocol has all the routing information to all participated hosts in the network. However, as a drawback OLSR
 protocol needs that each host periodic sends the updated topology information throughout the entire network, this increase the protocols bandwidth usage. But the flooding is minimised by the MPRs, which are only allowed to forward the topological messages.
 
+\pagebreak
 \section{Simulation}
 
 \subsection{Objectives}
 OMNeT++ simulation based comparison of the TCP and SCTP transport protocols with respect to performance in wireless multihop networks. Modelling of a point-to-point connection with permanent changing routes due to various moving ad hoc network devices. Simulating an open battlefield area where only free-space loss influences the wireless propagation. Focus the influence of changing routes due to mobility on the announced transport protocols considering various metrics.
 
 \subsection{Scenario}
-An important message including maps and pictures has to be transmitted from the army command center (server) at the outer left center of the battlefield to a special force unit (client) at the outer right center of the battlefield (see Figure \ref{fig_topology}). Due to war actions the wired connections are broken and the satellite base station has been destroyed by the enemy. The armed forces only have the possibilities of building an ad hoc wireless network between different squads of their troops. They build network based on the moving velocity of the available squads. There are various troop genres with different average velocities and rate of turn:
+An important message including maps and pictures has to be transmitted from the army command center (server) at the outer left center of the battlefield to a special force unit (client) at the outer right center of the battlefield (see Figure \ref{fig:topology}). Due to war actions the wired connections are broken and the satellite base station has been destroyed by the enemy. The armed forces only have the possibilities of building an ad hoc wireless network between different squads of their troops. They build network based on the moving velocity of the available squads. There are various troop genres with different average velocities and rate of turn:
 \begin{itemize}
 	\item Infantry (5 km/h), fast turning
 	\item Jeeps (5 - 30 km/h), fast turning
@@ -116,11 +117,11 @@ Each squad / vehicle has only one wireless device which acts as network routing 
 \subsection{Experiment design}
 \subsubsection{Topology}
 In this subsection the technical view of the used topology is introduced. Information proposed in the scenario are specified in a more proper form. The following graphic shows the topology used in the simulation. The network consists of two stationary entities with client and server roles. These stationary devices are interconnected over 10 to 15 moving wireless ad hoc devices building a wireless multihop link in between.
-\begin{figure}[ht]
+\begin{figure}[H]
 	\centering
-	\includegraphics{imgs/Topology}
+	\includegraphics[width=0.5\textwidth]{imgs/Topology}
 	\caption{Network Topology}
-	\label{fig_topology}
+	\label{fig:topology}
 \end{figure}
 The following list collects the exact specifications:
 \begin{itemize}
@@ -190,6 +191,39 @@ Using only one stream of the SCTP will not reduce the RTT and therefore the TCP 
 Increasing velocity will cause an increasing ACK overhead of TCP because packets are dropped and have to be retransmitted. The number of packet requests of SCTP increases with a higher number of streams and increasing velocity because of packet loss.
 
 \subsubsection{Measured results}
+
+\paragraph{Throughput}
+
+First of all the throughput of TCP and STCP have been compared with different movement velocities. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{imgs/sctp-throughput.png}
+	\caption{SCTP throughput under varying device movement}
+	\label{fig:sctp-throughput}
+\end{figure}
+
+Figure \ref{fig:sctp-throughput} shows the throughput over time with 1 and 5 streams and the velocities 1.4 m/s and 20 m/s. Unfortunately the expected performance loss with a higher velocity is not be visible. Independent from the number of streams and the velocity the throughput over time is always in the same range. Because data is transferred it can be assumed that the ad hoc routing is working. Nevertheless it might be possible that the wireless range of the sender and the receiver is enough big that no more hop destinations between are necessary. To validate this assumption the throughput of TCP has been considered.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{imgs/tcp-throughput.png}
+	\caption{TCP throughput under varying device movement}
+	\label{fig:tcp-throughput}
+\end{figure}
+
+Figure \ref{fig:tcp-throughput} compares the throughput of the TCP file transfer with different speeds. Like already seen in Figure \ref{fig:sctp-throughput} no direct influence of the increasing velocity can be seen. For example the results of velocity 2.8 and 20 m/s are very close and do not differ significantly like expected. On the basis of these both results the previous announced apprehension that hops between sender and receiver are not use for packet transmission has come true. Modifying the simulation parameters like increasing the path-loss parameter alpha or reducing the maximum transmission power lead to no result because packet transmission was not even possible.
+
+To still be able to discuss the obtained result the velocity parameter will not considered in the following metrics and graphics.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{imgs/sctp-vs-tcp-throughput.png}
+	\caption{TCP vs. SCTP throughput}
+	\label{fig:tcp-vs-sctp-throughput}
+\end{figure}
+
+Figure \ref{fig:tcp-vs-sctp-throughput} compares the throughput of TCP and SCTP over time. It can be seen that independent of the transport protocol the throughput starts growing after about 9 seconds of simulation time. Even thought the file transfer has been initiated at simulation start time this delay exists. A reason for that is the ad hoc routing using the OLSR protocol. While applying this protocol messages can only be forwarded when a corresponding route to the given destination has been found. OLSR needs some time to find neighbours and setup the routing tables.
 
 \section{Conclusion}
 
