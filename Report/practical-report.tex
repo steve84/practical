@@ -182,7 +182,7 @@ The suggested number of streams is only a first estimation. If we can’t see di
 In this section a prediction about the results of the discussed simulation approach is made.
 
 \paragraph{Throughput}
-The TCP should have a slightly higher throughput than SCTP if only one stream is used. Because the SCTP can not bring in his strength (multiple streams, message oriented). If we increase the number of streams, but with a small loss rate (e.g. slow velocity), the performance of TCP is still better than SCTP. But if there are losses (e.g. high velocity), the SCTP has the mechanism to achieve a higher throughput.
+The TCP should have a slightly higher throughput than SCTP if only one stream is used. Because the SCTP can not bring in his strength (multiple streams, message oriented). Increasing the number of streams while having a small loss rate (e.g. slow velocity) is not enough to beat the performance of TCP. But if there are losses (e.g. high velocity), SCTP has the mechanism to achieve a higher throughput.
 \paragraph{Loss rate}
 A small moving speed of the mobile devices should result in a small loss rate. This behaviour is expected because the routing needs enough time to find a new route to the destination. If the velocity will be increased, then the loss rate increases too. The type of the transport protocol should have no influence to the loss rate.
 \paragraph{Round trip time (RTT)}
@@ -223,7 +223,14 @@ To still be able to discuss the obtained result the velocity parameter will not 
 	\label{fig:tcp-vs-sctp-throughput}
 \end{figure}
 
-Figure \ref{fig:tcp-vs-sctp-throughput} compares the throughput of TCP and SCTP over time. It can be seen that independent of the transport protocol the throughput starts growing after about 9 seconds of simulation time. Even thought the file transfer has been initiated at simulation start time this delay exists. A reason for that is the ad hoc routing using the OLSR protocol. While applying this protocol messages can only be forwarded when a corresponding route to the given destination has been found. OLSR needs some time to find neighbours and setup the routing tables.
+Figure \ref{fig:tcp-vs-sctp-throughput} compares the throughput of TCP and SCTP over time. It can be seen that independent of the transport protocol the throughput starts growing after about 9 seconds of simulation time. Even thought the file transfer has been initiated at simulation start time this delay exists. A reason for that is the ad hoc routing using the OLSR protocol. While applying this protocol messages can only be forwarded when a corresponding route to the given destination has been found. OLSR needs some time to find neighbours and setup the routing tables. 
+Finally when a route has been found data will be sent and the throughput increases with increasing time. In the case of SCTP the throughput increases logarithmic until about the 120 simulation second and then stays constant at the maximum value. In contrast to the smooth curve of SCTP, the throughput increase of TCP is rather erratic. This behaviour is caused by the flow and congestion control mechanisms of the TCP protocol. After about 80 simulation seconds the maximum throughput is reached and stays nearly constant until the end of the simulation.
+
+\paragraph{Round trip time (RTT)}
+
+\paragraph{Loss Rate}
+
+\paragraph{ACK Overhead}
 
 \section{Conclusion}
 
