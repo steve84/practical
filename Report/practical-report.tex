@@ -253,8 +253,8 @@ There are two possibilities to explain this behaviour:
 
 \paragraph{Loss Rate}
 
-The loss rate of TCP has been calculated using the the number of sent seq packets on the server side and the number of received seq packets on the client side.
-Table \ref{table:loss-rate-tcp} shows the the results of the three runs and the average of these results.
+The loss rate of TCP has been calculated using the the number of sent seq packets on the server side and the number of received seq packets on the client side. The used formula was $1 - \frac{number-of-received-packets}{number-of-sent-packets}$.
+Table \ref{table:loss-rate-tcp} shows the results of three runs with different device movement speeds and the average of these results.
 \begin{table}[H]
 \centering
 \begin{tabular}{cccc}
@@ -270,12 +270,42 @@ Table \ref{table:loss-rate-tcp} shows the the results of the three runs and the 
  \hline
 \textbf{Average} & - & - & 0.35 \% \\ 
 \end{tabular} 
-
-\label{table:loss-rate-tcp}
 \caption{Loss rate TCP simulation runs}
+\label{table:loss-rate-tcp}
+\end{table}
+
+The results of the loss rate indicates again that the device movement does not have any impact on the data transmission unlike expected. It is assumed that independent from the speed always the same route is chosen because the moving nodes are not part of this route.
+\pagebreak
+
+Table \ref{table:loss-rate-sctp} shows the loss rate for SCTP in contrast to TCP the loss rate is very high nearly every second packet does not arrive at its destination. Again the device moving speed does not have any impact on this metric.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc}
+
+\textbf{Speed} & \textbf{Number of Streams}  & \textbf{Loss Rate} \\ 
+\hline 
+\hline
+1.4 m/s & 1 & 48.793\% \\ 
+20 m/s  & 1 & 48.741\% \\ 
+\hline
+1.4 m/s & 5 & 48.582\% \\
+20 m/s  & 5 & 48.445\% \\
+ \hline
+\textbf{Average} & - & 48.640 \%\\ 
+\end{tabular} 
+\caption{Loss rate SCTP simulation runs}
+\label{table:loss-rate-sctp}
 \end{table}
 
 \paragraph{ACK Overhead}
+
+For each received data segment on the client-side an ACK segment has to be sent. For TCP connections with a very small loss rate this generates an overhead of nearly 100\% unused segments. In the wireless connection case these segments contribute to a higher medium occupancy which increases the wait time for sending data to the medium and reduces the maximal throughput of a TCP connection. This explanation is also suitable for the smaller TCP throughput in the result discussion above. On the other hand in networks with high loss rates the ACK segments are necessary to guarantee packet arrival and data consistency. 
+
+
+\paragraph{Result Summary}
+
+Regarding the presented result shows that TCP guarantees a reliable data connection but with a smaller throughput than SCTP. Using TCP in not changing links enables low RTT and small loss rates. SCTP in contrast has a much higher throughput but also a high loss rate and using of multiple streams in wireless network leads to high RTT's.
 
 \section{Conclusion}
 OMNeT++ is a powerful network simulation tool with many extensions for almost every technology and situation. But during the project the framework has shown some drawbacks. The behaviour of the lower layers is hard to understand and the insertion of new statistical values needs a lot of effort. The settings in the configuration file have a big influence to these. For example the creation time of a packet isn't available in some configurations and continuative calculations not possible.
