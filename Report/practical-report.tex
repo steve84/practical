@@ -139,6 +139,14 @@ The following list collects the exact specifications:
 	\item Routing protocol: OLSR
 	\item Traffic modelling: FTP traffic over TCP according to INET manual, generation of equivalent traffic over SCTP
 \end{itemize}			
+The reasons to use the OLSR protocol in the simulation scenario are:
+\begin{itemize}
+	\item Army squads move usally in formation. The distances between the mobile devices and the distribution of them will be constant. The one and two-hop routing table will change slightly.
+	\item Immediate transmission of data. The commander in the army command center will have the new observations as fast as possible. OLSR is ready after a few seconds used for setting up the routing tables. Then everything is done for a immediate transmission.
+	\item Shortest path. Establishment of routing entries for each node in the network using Dijkstra's Shortest Path algorithm.
+\end{itemize}
+
+
 \subsubsection{Simulation}
 We run our simulation for 200 seconds. The simulation time limits the maximal covered walk of a mobile node which is necessary because of the limited area.
 \subsubsection{Metrics}
@@ -167,8 +175,6 @@ For our simulation we use the following parameters to show the different behavio
 	\end{itemize}
 \end{itemize}	
 
-% TODO remove this lines
-The suggested number of streams is only a first estimation. If we can’t see distinguished results during the simulation process, we will have the possibility to change these numbers.
 \subsection{Results}
 \subsubsection{Expected results}
 In this section, we try to predict the results of our simulation approach. It’s not so easy, because we are not familiar with the SCTP.
@@ -185,6 +191,11 @@ Increasing velocity will cause an increasing ACK overhead of TCP because packets
 \subsubsection{Measured results}
 
 \section{Conclusion}
+OMNeT++ is a powerful network simulation tool with many extensions for almost every technology and situation. But during the project the framework has shown some drawbacks. The behaviour of the lower layers is hard to understand and the insertion of new statistical values needs a lot of effort. The settings in the configuration file have a big influence to these. For example the creation time of a packet isn't available in some configurations and continuative calculations not possible.
+Another problem is the unavailable support of the community. There are some board entries, majoritarian without a solution. Therefore the user has to try different settings and spent a lot of time to solve the problem. But the included examples are very helpful.
+The documentation of the INET extension is insufficient and the meanings of different parameters are unclear or not described. Only a look at the source code can help, but the whole function is mostly distributed over many files.
+The amount of data which will be created by the application is huge. The post-processing needs patience and the right tools. The export of the results isn't user friendly.
+
 
 \begin{thebibliography}{99}
 \bibitem {sctp_vs_tcp} SCTP versus TCP: Comparing the Performance of Transport Protocols for Web Traffic, Rajesh Rajamani, Sumit Kumar, Nikhil Gupta, Computer Sciences Department, University of Wisconsin-Madison, July 2002, \url{http://pages.cs.wisc.edu/~sumit/extlinks/sctp.pdf}
