@@ -174,4 +174,4 @@ pip-log.txt
 *.bbl
 *.blg
 *.lts
-
+*.toc
