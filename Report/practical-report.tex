@@ -218,7 +218,7 @@ Figure \ref{fig:sctp-throughput} shows the throughput over time with 1 and 5 str
 	\label{fig:tcp-throughput}
 \end{figure}
 
-Figure \ref{fig:tcp-throughput} compares the throughput of the TCP file transfer with different speeds. Like already seen in Figure \ref{fig:sctp-throughput} no direct influence of the increasing velocity can be seen. For example the results of velocity 2.8 and 20 m/s are very close and do not differ significantly like expected. On the basis of these both results the previous announced apprehension that hops between sender and receiver are not use for packet transmission has come true. Modifying the simulation parameters like increasing the path-loss parameter alpha or reducing the maximum transmission power lead to no result because packet transmission was not even possible.
+Figure \ref{fig:tcp-throughput} compares the throughput of the TCP file transfer with different speeds. Like already seen in Figure \ref{fig:sctp-throughput} no direct influence of the increasing velocity can be seen. For example the results of velocity 2.8 and 20 m/s are very close and do not differ significantly like expected. On the basis of these both results the previous announced apprehension that hops between sender and receiver are not used for packet transmission has come true. Modifying the simulation parameters like increasing the path-loss parameter alpha or reducing the maximum transmission power lead to no result because packet transmission was not even possible.
 
 To still be able to discuss the obtained result the velocity parameter will not considered in the following metrics and graphics.
 
@@ -234,6 +234,23 @@ Finally when a route has been found data will be sent and the throughput increas
 
 \paragraph{Round trip time (RTT)}
 
+To compare the round trip time of both of these transport protocols the already in INET implemented statistical vector RTT of the associated protocol has been used.
+Figure \ref{fig:tcp-vs-sctp-rtt} shows a comparison of the obtained results. Unfortunately the unit of the statistical vector is not documented so it was assumed that the values are store in seconds and have been downscaled to milliseconds later.
+The comparison shows that TCP has values with at most single digit millisecond range where SCTP with one stream has much higher values between 50 and 300ms. The values for SCTP with 5 streams have a strange behaviour the values are in most of the cases 1000ms with some statistical outliers. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{imgs/sctp-vs-tcp-rtt.png}
+	\caption{TCP vs. SCTP round trip time (RTT)}
+	\label{fig:tcp-vs-sctp-rtt}
+\end{figure}
+
+There are two possibilities to explain this behaviour:
+\begin{enumerate}
+	\item The higher number of streams increases the occupancy of the wireless medium and generates a higher number of packet collisions which are handled on the MAC layer. For this reason requested packets will arrive later and the RTT will be higher.
+	\item The RTT metric implementation in the INET Framework is bogus.
+\end{enumerate}
+
 \paragraph{Loss Rate}
 
 \paragraph{ACK Overhead}
@@ -242,7 +259,8 @@ Finally when a route has been found data will be sent and the throughput increas
 OMNeT++ is a powerful network simulation tool with many extensions for almost every technology and situation. But during the project the framework has shown some drawbacks. The behaviour of the lower layers is hard to understand and the insertion of new statistical values needs a lot of effort. The settings in the configuration file have a big influence to these. For example the creation time of a packet isn't available in some configurations and continuative calculations not possible.
 Another problem is the unavailable support of the community. There are some board entries, majoritarian without a solution. Therefore the user has to try different settings and spent a lot of time to solve the problem. But the included examples are very helpful.
 The documentation of the INET extension is insufficient and the meanings of different parameters are unclear or not described. Only a look at the source code can help, but the whole function is mostly distributed over many files.
-The amount of data which will be created by the application is huge. The post-processing needs patience and the right tools. The export of the results isn't user friendly.
+The amount of data which will be created by the application is huge. The post-processing needs patience and the right tools. The export of the results is not very user friendly.
+Another missing part is a testing environment where the behaviour of newly generated modules can be tested or the behaviour of existing modules can be visualized.
 
 
 \begin{thebibliography}{99}
