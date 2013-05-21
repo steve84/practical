@@ -15,7 +15,7 @@ FS2013}
 \end{center}
 
 \begin{abstract}
-The Stream Control Transmission Protocol (SCTP) was defined, about twenty years after TCP and UDP, in 2000 by the Internet Engineering Task Force (IETF). They combined the best practices from both older protocols to create a message-based, multi-streamed transport protocol. There are papers \cite{sctp_vs_tcp}\cite{sctp_vs_tcp2} which shows the improvements of the SCTP with the usage of HTTP over the internet. In this paper the behaviour of the TCP and SCTP in a wireless multi-hop network environment is compared. For this the OMNeT++ network simulation framework \cite{omnetpp} has been used. The hops are in motion (different speeds) and use the proactive OLSR protocol to transmit data over a wide open field (500m x 500m) without obstacles like mountains or buildings. In the first part the reader is introduced into some technical topics for a better understanding of the used technologies. The simulation setting and the corresponding results are part of the mid section. At the end of the document a conclusion of the project with a summary of the observations is made.
+The Stream Control Transmission Protocol (SCTP) was defined, about twenty years after TCP and UDP, in 2000 by the Internet Engineering Task Force (IETF). They combined the best practices from both older protocols to create a message-based, multi-streamed transport protocol. There are papers \cite{sctp_vs_tcp}\cite{sctp_vs_tcp2} which show the improvements of SCTP by using HTTP over the internet. In this paper the behaviour of TCP and SCTP in a wireless multi-hop network environment is evaluated. For this case the OMNeT++ network simulation framework \cite{omnetpp} has been used. The hops are in motion (different speeds) and use the proactive OLSR protocol to transmit data over a wide open field (500m x 500m) without obstacles like mountains or buildings. In the first part the reader is introduced into some technical topics for a better understanding of the used technologies. The simulation setting and the corresponding results are part of the mid section. At the end of the document a conclusion of the project with a summary of the observations is made.
 \end{abstract}
 
 \tableofcontents
@@ -34,32 +34,32 @@ TCP provides connection oriented data-transfer with the following key features:
 	\item Flow control 
 	\item Congestion control
 \end{itemize}
-Since TCP is the most common used transport protocol it is assumed that the reader is familiar with the operation of the Protocol. Because of that the focus of the introduction lies on the less common protocols used in this simulation scenario.
+Since TCP is the most common used transport protocol it is assumed that the reader is familiar with the operation of the protocol. Because of that the focus of the introduction lies on the less common protocols used in this simulation scenario.
 
 \subsection{Stream Control Transmission Protocol}
 Stream Control Transmission Protocol (SCTP) is a reliable, message oriented transport protocol that provides new services and features for IP communication. For the past twenty years, reliable communication service has been provided by TCP, unreliable by UDP. So, what has brought about the addition of a third protocol to the IP suite of protocols? Many of the features found in TCP and UDP can also be found in SCTP (see Table \ref{tab_sctp_features}).
 \begin{table}[H]
 	\centering
-	\begin{tabular}{ | l | r | r | r | }
-		\hline
-		Service/Features & SCTP & TCP & UDP \\ \hline \hline
-		Message-Oriented & yes & no & yes \\ \hline
-		Byte-Oriented & no & yes & no \\ \hline
-		Connection-Oriented & yes & yes & no \\ \hline
-		Full Duplex & yes & yes & yes \\ \hline
-		Reliable data transfer & yes & yes & no \\ \hline
-		Partially-Reliable data transfer & opt & no & no \\ \hline
-		Ordered data delivery & yes & yes & no \\ \hline
-		Unordered delivery & yes & no & yes \\ \hline
-		Flow control & yes & yes & no \\ \hline
-		Congestion Control & yes & yes & no \\ \hline
-		Selective Acknowledgements & yes & opt & no \\ \hline
-		Multistreaming & yes & no & no \\ \hline
-		Multihoming & yes & no & no \\ \hline
-		Dynamic Multihoming & opt & no & no \\ \hline
-		SYN flooding attack prevention & yes & no & n/a \\ \hline
-		Allows half-closed state & no & yes & n/a \\ \hline
-		Reach-ability check & yes & opt & no \\ \hline
+	\begin{tabular}{ l  r  r  r  }
+		
+		\textbf{Service/Features} & \textbf{SCTP} & \textbf{TCP} & \textbf{UDP} \\ \hline \hline
+		Message-Oriented & yes & no & yes \\
+		Byte-Oriented & no & yes & no \\ 
+		Connection-Oriented & yes & yes & no \\ 
+		Full Duplex & yes & yes & yes \\ 
+		Reliable data transfer & yes & yes & no \\ 
+		Partially-Reliable data transfer & opt & no & no \\ 
+		Ordered data delivery & yes & yes & no \\ 
+		Unordered delivery & yes & no & yes \\ 
+		Flow control & yes & yes & no \\ \
+		Congestion Control & yes & yes & no \\ 
+		Selective Acknowledgements & yes & opt & no \\ 
+		Multistreaming & yes & no & no \\ 
+		Multihoming & yes & no & no \\ 
+		Dynamic Multihoming & opt & no & no \\ 
+		SYN flooding attack prevention & yes & no & n/a \\ 
+		Allows half-closed state & no & yes & n/a \\ 
+		Reach-ability check & yes & opt & no \\ 
 	\end{tabular}
 	\caption{Feature comparison}
 	\label{tab_sctp_features}
@@ -83,7 +83,7 @@ In standard TCP, every message, or packet of information must be accounted for, 
 Due to the very nature of networks not all packets may travel across the exact same path. If there is a time-delay using one path over another, the original messages could be out of order when received. Unordered data delivery allows for this instance and can correct the issue by reordering the messages correctly. Using TCP’s reliable data transfer feature requires that packets be processed in order. If one is missing or out of order, the packet must be reordered before processing can continue. SCTP allows for unordered data delivery and since it has multiple streams, only the one affected is temporarily blocked.
 
 \subsection{Optimized Link State Protocol}
-Optimized Link State Protocol (OLSR) is a proactive routing protocol, so the routes are always immediately available when needed. OLSR is an optimization version of a pure link state protocol. The topological changes cause the flooding of the topological information to all available hosts in the network. To reduce the possible overhead in the network protocol uses Multipoint Relays (MPR). The idea of MPR is to reduce flooding of broadcasts by reducing the same broadcast in some regions in the network.
+Optimized Link State Protocol (OLSR) is a proactive routing protocol, so the routes are always immediately available when needed. OLSR is an optimization version of a pure link state protocol. The topological changes cause the flooding of the topological information to all available hosts in the network. To reduce the possible overhead in the network protocol it uses Multipoint Relays (MPR). The idea of MPR is to reduce flooding of broadcasts by reducing the same broadcast in some regions in the network.
 
 \subsubsection{Control messages}
 OLSR uses two kinds of the control messages: Hello and Topology Control (TC). Hello messages are used for finding the information about the link status and the host’s neighbours. With the Hello message the Multipoint Relay (MPR) Selector set is constructed which describes which neighbours has chosen this host to act as MPR and from this information the host can calculate its own set of the MPRs. The Hello messages are sent only one hop away but the TC messages are broadcasted throughout the entire network. TC messages are used for broadcasting information about own advertised neighbours which includes at least the MPR Selector list. The TC messages are broadcasted periodically and only the MPR hosts can forward the TC messages.
@@ -116,13 +116,14 @@ Each squad / vehicle has only one wireless device which acts as network routing 
 
 \subsection{Experiment design}
 \subsubsection{Topology}
-In this subsection the technical view of the used topology is introduced. Information proposed in the scenario are specified in a more proper form. The following graphic shows the topology used in the simulation. The network consists of two stationary entities with client and server roles. These stationary devices are interconnected over 10 to 15 moving wireless ad hoc devices building a wireless multihop link in between.
+In this subsection the technical view of the used topology is introduced. Information proposed in the scenario are specified in a more proper form. The following graphic shows the topology used in the simulation. The network consists of two stationary entities with client and server roles. These stationary devices are interconnected over 10 moving wireless ad hoc devices building a wireless multihop link in between.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{imgs/Topology}
 	\caption{Network Topology}
 	\label{fig:topology}
 \end{figure}
+\pagebreak
 The following list collects the exact specifications:
 \begin{itemize}
 	\item Area: Square, 500m x 500m, Free-Space loss
@@ -130,7 +131,7 @@ The following list collects the exact specifications:
 	\item Number of stationary devices: 2
 	\item Moving speed of mobile devices: 5, 10, 20, 30, 70 km/h
 	\item Energy management of mobile devices: Will not be considered
-	\item Movement: Random Walk, change of direction with different turning speeds
+	\item Movement: Random Walk
 	\item IEEE802.11a wireless ad hoc network
 	\begin{itemize}
 		\item Carrier frequency: 2.4 GHz band
@@ -143,7 +144,7 @@ The following list collects the exact specifications:
 	\item Traffic modelling: 
 	\begin{itemize}
 		\item TCP: Single session data transfer of 400MiB
-		\item SCTP: Single session data transfer with 1-5 associated streams 
+		\item SCTP: Single session data transfer of 400MiB with 1-5 associated streams 
 	\end{itemize}
 \end{itemize}			
 The reasons to use the OLSR protocol in the simulation scenario are:
@@ -161,14 +162,12 @@ For the comparison of the two transport protocols the following metrics have bee
 \begin{itemize}
 	\item Throughput: The average number of bits delivered over a communication channel within a certain amount of time. This metric has the unit bits per second (bps)
 	\item Round trip time (RTT): The time between sending a packet and the arrival of the corresponding acknowledgement from the server
-	\item Loss rate: The number of packets which did not reach the destination divided by the number of all sent packets
+	\item Loss rate: The number of packets which did not reach the destination divided by the number of sent packets
 	\item ACK overhead: The additional number of the control messages sent by the TCP protocol compared to the number of message sent by the SCTP protocol.
 \end{itemize}			
 \subsubsection{Parameters}
 In the discussed simulation the following parameters have been used to show the different behaviour of the transport protocols:
 \begin{itemize}
-% TODO results are not the average of these three runs but we can tell that it is like this... ;-)
-%	\item Number of Test Runs: 3
 	\item Type of transport protocol
 	\begin{itemize}
 		\item Stream Control Transmission Protocol
@@ -188,11 +187,11 @@ In the discussed simulation the following parameters have been used to show the 
 In this section a prediction about the results of the discussed simulation approach is made.
 
 \paragraph{Throughput}
-The TCP should have a slightly higher throughput than SCTP if only one stream is used. Because the SCTP can not bring in his strength (multiple streams, message oriented). Increasing the number of streams while having a small loss rate (e.g. slow velocity) is not enough to beat the performance of TCP. But if there are losses (e.g. high velocity), SCTP has the mechanism to achieve a higher throughput.
+TCP should have a slightly higher throughput than SCTP if only one stream is used. Because SCTP can not bring in his strength (multiple streams, message oriented). Increasing the number of streams while having a small loss rate (e.g. slow velocity) is not enough to beat the performance of TCP. But if the loss rate is high (e.g. high velocity), SCTP has the mechanism to achieve a higher throughput.
 \paragraph{Loss rate}
 A small moving speed of the mobile devices should result in a small loss rate. This behaviour is expected because the routing needs enough time to find a new route to the destination. If the velocity will be increased, then the loss rate increases too. The type of the transport protocol should have no influence to the loss rate.
 \paragraph{Round trip time (RTT)}
-Using only one stream of the SCTP will not reduce the RTT and therefore the TCP will have a smaller one. But if multiple stream are used then the SCTP should reduce this metric significantly. The parallelism could be one reason to explain this. Generally, a higher velocity of the devices results in higher RTT (OLSR has to find new routes faster).
+Using only one stream of the SCTP will not reduce the RTT and therefore TCP will have a smaller one. But if multiple stream are used then SCTP should reduce this metric significantly. The parallelism could be one reason to explain this. Generally, a higher velocity of the devices results in higher RTT (OLSR has to find new routes faster).
 \paragraph{ACK Overhead}
 Increasing velocity will cause an increasing ACK overhead of TCP because packets are dropped and have to be retransmitted. The number of packet requests of SCTP increases with a higher number of streams and increasing velocity because of packet loss.
 
@@ -209,7 +208,7 @@ First of all the throughput of TCP and STCP have been compared with different mo
 	\label{fig:sctp-throughput}
 \end{figure}
 
-Figure \ref{fig:sctp-throughput} shows the throughput over time with 1 and 5 streams and the velocities 1.4 m/s and 20 m/s. Unfortunately the expected performance loss with a higher velocity is not be visible. Independent from the number of streams and the velocity the throughput over time is always in the same range. Because data is transferred it can be assumed that the ad hoc routing is working. Nevertheless it might be possible that the wireless range of the sender and the receiver is enough big that no more hop destinations between are necessary. To validate this assumption the throughput of TCP has been considered.
+Figure \ref{fig:sctp-throughput} shows the throughput over time with 1 and 5 streams and the velocities 1.4 m/s and 20 m/s. Unfortunately the expected performance loss with a higher velocity is not visible. Independent from the number of streams and velocity the throughput over time is always in the same range. Because data is transferred it can be assumed that the ad hoc routing is working. Nevertheless it might be possible that the wireless range of the sender and the receiver is enough big that no additional hop destinations between are necessary. To validate this assumption the throughput of TCP has been considered.
 
 \begin{figure}[H]
 	\centering
@@ -230,13 +229,13 @@ To still be able to discuss the obtained result the velocity parameter will not 
 \end{figure}
 
 Figure \ref{fig:tcp-vs-sctp-throughput} compares the throughput of TCP and SCTP over time. It can be seen that independent of the transport protocol the throughput starts growing after about 9 seconds of simulation time. Even thought the file transfer has been initiated at simulation start time this delay exists. A reason for that is the ad hoc routing using the OLSR protocol. While applying this protocol messages can only be forwarded when a corresponding route to the given destination has been found. OLSR needs some time to find neighbours and setup the routing tables. 
-Finally when a route has been found data will be sent and the throughput increases with increasing time. In the case of SCTP the throughput increases logarithmic until about the 120 simulation second and then stays constant at the maximum value. In contrast to the smooth curve of SCTP, the throughput increase of TCP is rather erratic. This behaviour is caused by the flow and congestion control mechanisms of the TCP protocol. After about 80 simulation seconds the maximum throughput is reached and stays nearly constant until the end of the simulation.
+Finally when a route has been found data will be sent and the throughput increases with ongoing time. In the case of SCTP the throughput increases logarithmic until about the 120 simulation second and then stays constant at the maximum value. In contrast to the smooth curve of SCTP, the throughput increase of TCP is rather erratic. This behaviour is caused by the flow and congestion control mechanisms of the TCP protocol. After about 80 simulation seconds the maximum throughput is reached and stays nearly constant until the end of the simulation.
 
 \paragraph{Round trip time (RTT)}
 
 To compare the round trip time of both of these transport protocols the already in INET implemented statistical vector RTT of the associated protocol has been used.
 Figure \ref{fig:tcp-vs-sctp-rtt} shows a comparison of the obtained results. Unfortunately the unit of the statistical vector is not documented so it was assumed that the values are store in seconds and have been downscaled to milliseconds later.
-The comparison shows that TCP has values with at most single digit millisecond range where SCTP with one stream has much higher values between 50 and 300ms. The values for SCTP with 5 streams have a strange behaviour the values are in most of the cases 1000ms with some statistical outliers. 
+The comparison shows that TCP has values with at most single digit millisecond range where SCTP with one stream has much higher values between 50 and 300ms. SCTP with 5 streams has a strange behaviour the values are in most of the cases 1000ms with some statistical outliers. 
 
 \begin{figure}[H]
 	\centering
@@ -253,7 +252,7 @@ There are two possibilities to explain this behaviour:
 
 \paragraph{Loss Rate}
 
-The loss rate of TCP has been calculated using the the number of sent seq packets on the server side and the number of received seq packets on the client side. The used formula was $1 - \frac{number-of-received-packets}{number-of-sent-packets}$.
+The loss rate of TCP has been calculated using the the number of sent SEQ packets on the server side and the number of received SEQ packets on the client side. The used formula was $1 - \frac{\text{number of received packets}}{\text{number of sent packets}}$.
 Table \ref{table:loss-rate-tcp} shows the results of three runs with different device movement speeds and the average of these results.
 \begin{table}[H]
 \centering
@@ -277,7 +276,7 @@ Table \ref{table:loss-rate-tcp} shows the results of three runs with different d
 The results of the loss rate indicates again that the device movement does not have any impact on the data transmission unlike expected. It is assumed that independent from the speed always the same route is chosen because the moving nodes are not part of this route.
 \pagebreak
 
-Table \ref{table:loss-rate-sctp} shows the loss rate for SCTP in contrast to TCP the loss rate is very high nearly every second packet does not arrive at its destination. Again the device moving speed does not have any impact on this metric.
+Table \ref{table:loss-rate-sctp} shows the loss rate for SCTP. In contrast to TCP the loss rate is very high and nearly every second packet does not arrive at its destination. Again the device moving speed does not have any impact on this metric.
 
 \begin{table}[H]
 \centering
@@ -305,7 +304,7 @@ For each received data segment on the client-side an ACK segment has to be sent.
 
 \paragraph{Result Summary}
 
-Regarding the presented result shows that TCP guarantees a reliable data connection but with a smaller throughput than SCTP. Using TCP in not changing links enables low RTT and small loss rates. SCTP in contrast has a much higher throughput but also a high loss rate and using of multiple streams in wireless network leads to high RTT's.
+Regarding the presented result shows that TCP guarantees a reliable data connection but with a smaller throughput than SCTP. Using TCP in not changing links enables low RTT and small loss rates. SCTP in contrast has a much higher throughput but also a high loss rate and using multiple streams in wireless network leads to high RTT's.
 
 \section{Conclusion}
 OMNeT++ is a powerful network simulation tool with many extensions for almost every technology and situation. But during the project the framework has shown some drawbacks. The behaviour of the lower layers is hard to understand and the insertion of new statistical values needs a lot of effort. The settings in the configuration file have a big influence to these. For example the creation time of a packet isn't available in some configurations and continuative calculations not possible.
